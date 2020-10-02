@@ -48,17 +48,23 @@ item in the data set. Your job is to extend this functionality to create all
 of the necessary SQL tables for your database.
 """
 def parseJson(json_file):
+
     #Initialize lists that store all of the json information
     item_table = []
     bid = []
     user = []
     location = []
     country = []
-    rating = []
     lineItem = []
-    category = []
+    categories = []
+    compare_cate = []
+    compare_loc = []
+    compare_country = []
 
     bidsID = 0 # Keeps track of the bidsID
+    categoryID = 0 # Keeps track of the categoryID
+    locationID = 0 # Keeps track of the locationID
+    countryID = 0 # Keeps track of te countryID
 
     #Reads through all of the json files
     with open(json_file, 'r') as f:
@@ -78,32 +84,65 @@ def parseJson(json_file):
                     )
                     bidsID += 1 #Increments the bid ID
 
-            #Adds to user table
-            user.append(item)
+            #Adds bidders to user table
+            if item["Bids"] is not None:
+                for bids in item["Bids"]:
+                    user.append(
+                        #TODO LOCATION AND COUNTRY IDS
+                        bids["Bid"]["Bidder"]["UserID"] + columnSeparator + bids["Bid"]["Bidder"]["Rating"] + columnSeparator + "True" + columnSeparator + "False"
+                        )
 
-            #Adds to location table
-            location.append(item["Location"])
+            #Adds sellers to the user table
+            user.append(
+                item["Seller"]["UserID"] + columnSeparator + item["Seller"]["Rating"] + columnSeparator + "False" + columnSeparator + "True"
+            )
 
-            #Adds to country table
-            country.append(item["Country"])
-            #rating.append()
+            #Adds to location table TODO bidder locations
+            if item["Location"] not in compare_loc:
+                compare_loc.append(item["Location"])
+                location.append(
+                    str(locationID) + columnSeparator + item["Location"]
+                )
+                locationID += 1
+            
+            #Adds to country table TODO bidder countries
+            if item["Country"] not in compare_country:
+                compare_country.append(item["Country"])
+                country.append(
+                    str(countryID) + columnSeparator + item["Country"]
+                )
+                countryID += 1
+
             #lineItem.append()
-            #category.append()
+
+            #Adds to category table
+            for category in item["Category"]:
+                if category not in compare_cate:
+                    compare_cate.append(category)
+                    categories.append(
+                        str(categoryID) + columnSeparator + category
+                    )
+                    categoryID += 1
 
     #Writes to item.dat
     with open("item.dat", 'w') as f:
         for line in item_table:
             f.write(line + "\n")
 
-    #Writes to bit.dat
+    #Writes to bid.dat
     with open("bid.dat", 'w') as f:
         for line in bid:
             f.write(line + "\n")
 
     #Writes to user.dat
-    """with open("user.dat", 'w') as f:
+    with open("user.dat", 'w') as f:
         for line in user:
-            f.write(line + "\n")"""
+            f.write(line + "\n")
+
+    #Writes to category.dat
+    with open("category.dat", 'w') as f:
+        for line in categories:
+            f.write(line + "\n")
 
     #Writes to location.dat
     with open("location.dat", 'w') as f:
@@ -115,14 +154,9 @@ def parseJson(json_file):
         for line in country:
             f.write(line + "\n")
 
-    """with open("rating.dat", 'w') as f:
-        for line in rating:
-            f.write(line + "\n")
-    with open("lineItem.dat", 'w') as f:
+    #Writes to lineItem.dat
+    """with open("lineItem.dat", 'w') as f:
         for line in lineItem:
-            f.write(line + "\n")
-    with open("category.dat", 'w') as f:
-        for line in category:
             f.write(line + "\n")"""
 
 """
