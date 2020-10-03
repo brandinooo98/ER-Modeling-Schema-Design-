@@ -38,7 +38,7 @@ CREATE TABLE User (
     PRIMARY KEY (userID),
     FOREIGN KEY (locationID) REFERENCES Location (locationID),
     FOREIGN KEY (countryID) REFERENCES Country (countryID),
-    FOREIGN KEY (ratingID) REFERENCES Rating (ratingID),
+    FOREIGN KEY (ratingID) REFERENCES Rating (ratingID)
 );
 
 CREATE TABLE Location (
@@ -54,7 +54,6 @@ CREATE TABLE Country (
     country CHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (countryID)
 );
-
 
 CREATE TABLE LineItem (
     categoryID INT NOT NULL UNIQUE,
