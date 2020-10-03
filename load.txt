@@ -1,3 +1,11 @@
 .separator |
 .import item.dat Item
-update Item set set buy_price = null WHERE buy_price = 'NULL';
+update Item set buy_price = null WHERE buy_price = 'NULL';
+.import bid.dat Bids
+.import user.dat User
+update User set locationID = null WHERE locationID = 'NULL';
+update User set countryID = null WHERE countryID = 'NULL';
+.import location.dat Location
+.import country.dat Country
+.import lineItem.dat LineItem
+.import category.dat Category
