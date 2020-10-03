@@ -111,7 +111,7 @@ def parseJson(json_file):
 
             #Adds to item table
             item_table.append(
-                item["ItemID"] + columnSeparator + item["Name"] + columnSeparator + transformDollar(item["First_Bid"]) + columnSeparator 
+                item["ItemID"] + columnSeparator + str(compare_loc.index(item["Location"])) + columnSeparator + item["Name"] + columnSeparator + transformDollar(item["First_Bid"]) + columnSeparator 
                 + item["Number_of_Bids"] + columnSeparator + transformDollar(item["Currently"]) + columnSeparator + transformDttm(item["Started"]) + 
                 columnSeparator + transformDttm(item["Ends"])
             )
