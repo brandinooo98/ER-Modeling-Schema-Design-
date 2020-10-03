@@ -7,16 +7,17 @@ DROP TABLE IF EXISTS LineItem;
 DROP TABLE IF EXISTS Category;
 
 CREATE TABLE Item (
-    itemID			INT NOT NULL UNIQUE,
-    name			INT NOT NULL,
-    buy_price		DOUBLE,
-    first_bid		DOUBLE NOT NULL,
-    number_of_bids	INT NOT NULL,
-    currently		DOUBLE NOT NULL,
-    started			CHAR (255) NOT NULL,
-    ends			CHAR (255) NOT NULL,
+    itemID INT NOT NULL UNIQUE,
+    locationID INT,
+    name INT NOT NULL,
+    buy_price DOUBLE,
+    first_bid DOUBLE NOT NULL,
+    number_of_bids INT NOT NULL,
+    currently DOUBLE NOT NULL,
+    started CHAR (255) NOT NULL,
+    ends CHAR (255) NOT NULL,
     PRIMARY KEY (itemID),
-    FOREIGN KEY (locationID) REFERENCE Location (locationID)
+    FOREIGN KEY (locationID) REFERENCES Location (locationID)
 );
 
 CREATE TABLE Bids (
@@ -34,10 +35,10 @@ CREATE TABLE User (
     ratingID INT NOT NULL,
     bidsID INT NOT NULL,
     rating DOUBLE NOT NULL,
-    PRIMARY KEY (userID)
-    FOREIGN KEY (locationID) REFERENCE Location (locationID),
-    FOREIGN KEY (countryID) REFERENCE Country (countryID),
-    FOREIGN KEY (ratingID) REFERENCE Rating (ratingID),
+    PRIMARY KEY (userID),
+    FOREIGN KEY (locationID) REFERENCES Location (locationID),
+    FOREIGN KEY (countryID) REFERENCES Country (countryID),
+    FOREIGN KEY (ratingID) REFERENCES Rating (ratingID),
 );
 
 CREATE TABLE Location (
@@ -45,7 +46,7 @@ CREATE TABLE Location (
     countryID INT NOT NULL,
     location CHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (locationID),
-    FOREIGN KEY (countryID) REFERENCE Country (countryID)
+    FOREIGN KEY (countryID) REFERENCES Country (countryID)
 );
 
 CREATE TABLE Country (
@@ -58,8 +59,8 @@ CREATE TABLE Country (
 CREATE TABLE LineItem (
     categoryID INT NOT NULL UNIQUE,
     itemID INT NOT NULL UNIQUE,
-    FOREIGN KEY (categoryID) REFERENCE Category (categoryID),
-    FOREIGN KEY (itemID) REFERENCE Item (itemID)
+    FOREIGN KEY (categoryID) REFERENCES Category (categoryID),
+    FOREIGN KEY (itemID) REFERENCES Item (itemID)
 );
 
 CREATE TABLE Category (
