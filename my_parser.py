@@ -70,34 +70,8 @@ def parseJson(json_file):
     with open(json_file, 'r') as f:
         items = loads(f.read())['Items'] # creates a Python dictionary of Items for the supplied json file
         for item in items:
-            #Adds to item table
-            item_table.append(
-                item["ItemID"] + columnSeparator + item["Name"] + columnSeparator + item["First_Bid"] + columnSeparator + item["Number_of_Bids"] + columnSeparator
-                + item["Currently"] + columnSeparator + transformDttm(item["Started"]) + columnSeparator + transformDttm(item["Ends"])
-            )
-            if item["Bids"] is not None:
-                for bids in item["Bids"]:
-                    #Adds to bids table
-                    bid.append(
-                        str(bidsID) + columnSeparator + bids["Bid"]["Bidder"]["UserID"]  + columnSeparator + transformDttm(bids["Bid"]["Time"])
-                    + columnSeparator + bids["Bid"]["Amount"]
-                    )
-                    bidsID += 1 #Increments the bid ID
 
-            #Adds bidders to user table
-            if item["Bids"] is not None:
-                for bids in item["Bids"]:
-                    user.append(
-                        #TODO LOCATION AND COUNTRY IDS
-                        bids["Bid"]["Bidder"]["UserID"] + columnSeparator + bids["Bid"]["Bidder"]["Rating"] + columnSeparator + "True" + columnSeparator + "False"
-                        )
-
-            #Adds sellers to the user table
-            user.append(
-                item["Seller"]["UserID"] + columnSeparator + item["Seller"]["Rating"] + columnSeparator + "False" + columnSeparator + "True"
-            )
-
-            #Adds to location table TODO bidder locations
+            #Adds seller locations to the location table
             if item["Location"] not in compare_loc:
                 compare_loc.append(item["Location"])
                 location.append(
@@ -105,7 +79,18 @@ def parseJson(json_file):
                 )
                 locationID += 1
             
-            #Adds to country table TODO bidder countries
+            #Adds bid locations to the location table
+            if item["Bids"] is not None:
+                for bids in item["Bids"]:
+                    if "Location" in bids["Bid"]["Bidder"]:
+                        if bids["Bid"]["Bidder"]["Location"] not in compare_loc:
+                            compare_loc.append(bids["Bid"]["Bidder"]["Location"])
+                            location.append(
+                                str(locationID) + columnSeparator + bids["Bid"]["Bidder"]["Location"]
+                            )
+                            locationID += 1 #Increments the locationID
+            
+            #Adds seller countries to the country table
             if item["Country"] not in compare_country:
                 compare_country.append(item["Country"])
                 country.append(
@@ -113,7 +98,50 @@ def parseJson(json_file):
                 )
                 countryID += 1
 
-            #lineItem.append()
+            #Adds bidder countries to the country table
+            if item["Bids"] is not None:
+                for bids in item["Bids"]:
+                    if "Country" in bids["Bid"]["Bidder"]:
+                        if bids["Bid"]["Bidder"]["Country"] not in compare_country:
+                            compare_country.append(bids["Bid"]["Bidder"]["Country"])
+                            country.append(
+                                str(countryID) + columnSeparator + bids["Bid"]["Bidder"]["Country"]
+                            )
+                            countryID += 1 #Increments the countryID"""
+
+            #Adds to item table
+            item_table.append(
+                item["ItemID"] + columnSeparator + item["Name"] + columnSeparator + transformDollar(item["First_Bid"]) + columnSeparator 
+                + item["Number_of_Bids"] + columnSeparator + transformDollar(item["Currently"]) + columnSeparator + transformDttm(item["Started"]) + 
+                columnSeparator + transformDttm(item["Ends"])
+            )
+
+            #Adds to bids table
+            if item["Bids"] is not None:
+                for bids in item["Bids"]:
+                    bid.append(
+                        str(bidsID) + columnSeparator + bids["Bid"]["Bidder"]["UserID"]  + columnSeparator + transformDttm(bids["Bid"]["Time"])
+                    + columnSeparator + transformDollar(bids["Bid"]["Amount"])
+                    )
+                    bidsID += 1 #Increments the bid ID
+
+            #Adds bidders to user table
+            if item["Bids"] is not None:
+                for bids in item["Bids"]:
+                    if "Country" in bids["Bid"]["Bidder"]:
+                        if bids["Bid"]["Bidder"]["Country"] not in compare_country:
+                            if bids["Bid"]["Bidder"]["Location"] not in compare_loc:
+                                user.append(
+                                    bids["Bid"]["Bidder"]["UserID"] + columnSeparator + str(compare_loc.index(bids["Bid"]["Bidder"]["Location"])) + columnSeparator 
+                                    + str(compare_country.index(bids["Bid"]["Bidder"]["Country"])) + columnSeparator + bids["Bid"]["Bidder"]["Rating"] + columnSeparator 
+                                    + "True" + columnSeparator + "False"
+                                    )
+
+            #Adds sellers to the user table
+            user.append(
+                item["Seller"]["UserID"] + columnSeparator + str(compare_loc.index(item["Location"])) + columnSeparator 
+                + str(compare_country.index(item["Country"])) + columnSeparator + item["Seller"]["Rating"] + columnSeparator + "False" + columnSeparator + "True"
+            )
 
             #Adds to category table
             for category in item["Category"]:
@@ -123,6 +151,14 @@ def parseJson(json_file):
                         str(categoryID) + columnSeparator + category
                     )
                     categoryID += 1
+            
+            #Adds to lineItem table
+            for category in item["Category"]:
+                lineItem.append(
+                    str(compare_cate.index(category)) + columnSeparator + str(item["ItemID"])
+                )
+
+            
 
     #Writes to item.dat
     with open("item.dat", 'w') as f:
@@ -155,9 +191,9 @@ def parseJson(json_file):
             f.write(line + "\n")
 
     #Writes to lineItem.dat
-    """with open("lineItem.dat", 'w') as f:
+    with open("lineItem.dat", 'w') as f:
         for line in lineItem:
-            f.write(line + "\n")"""
+            f.write(line + "\n")
 
 """
 Loops through each json files provided on the command line and passes each file
