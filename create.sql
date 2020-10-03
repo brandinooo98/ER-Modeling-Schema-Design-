@@ -34,6 +34,7 @@ CREATE TABLE User (
     countryID INT,
     ratingID INT NOT NULL,
     bidsID INT NOT NULL,
+    rating DOUBLE NOT NULL,
     PRIMARY KEY (userID)
     FOREIGN KEY (locationID) REFERENCE Location (locationID),
     FOREIGN KEY (countryID) REFERENCE Country (countryID),
@@ -54,11 +55,6 @@ CREATE TABLE Country (
     PRIMARY KEY (countryID)
 );
 
-CREATE TABLE Rating (
-    ratingID INT NOT NULL UNIQUE,
-    rating CHAR(255) NOT NULL UNIQUE,
-    PRIMARY KEY (ratingID)
-);
 
 CREATE TABLE LineItem (
     categoryID INT NOT NULL UNIQUE,
