@@ -80,7 +80,7 @@ def parseJson(json_file):
             if item["Location"] not in compare_loc:
                 compare_loc.append(item["Location"])
                 location.append(
-                    str(locationID) + columnSeparator + item["Location"]
+                    str(locationID) + columnSeparator + '"' + item["Location"] + '"'
                 )
                 locationID += 1
             
@@ -91,14 +91,12 @@ def parseJson(json_file):
                         if bids["Bid"]["Bidder"]["Location"] not in compare_loc:
                             if '"' in bids["Bid"]["Bidder"]["Location"]:
                                 temp = bids["Bid"]["Bidder"]["Location"]
-                                print(temp)
                                 temp = temp.replace('"', '""', 20)
-                                print(temp)
                             else:
                                 temp = bids["Bid"]["Bidder"]["Location"]
                             compare_loc.append(bids["Bid"]["Bidder"]["Location"])
                             location.append(
-                                str(locationID) + columnSeparator + temp
+                                str(locationID) + columnSeparator + '"' + temp + '"'
                             )
                             locationID += 1 #Increments the locationID
                             temp = ""
@@ -107,7 +105,7 @@ def parseJson(json_file):
             if item["Country"] not in compare_country:
                 compare_country.append(item["Country"])
                 country.append(
-                    str(countryID) + columnSeparator + item["Country"]
+                    str(countryID) + columnSeparator + '"' + item["Country"] + '"'
                 )
                 countryID += 1
 
@@ -118,7 +116,7 @@ def parseJson(json_file):
                         if bids["Bid"]["Bidder"]["Country"] not in compare_country:
                             compare_country.append(bids["Bid"]["Bidder"]["Country"])
                             country.append(
-                                str(countryID) + columnSeparator + bids["Bid"]["Bidder"]["Country"]
+                                str(countryID) + columnSeparator + '"' + bids["Bid"]["Bidder"]["Country"] + '"'
                             )
                             countryID += 1 #Increments the countryID"""
 
@@ -129,7 +127,8 @@ def parseJson(json_file):
                 temp = item["Name"]
             #Adds to item table
             item_table.append(
-                item["ItemID"] + columnSeparator + str(compare_loc.index(item["Location"])) + columnSeparator + '"' + temp + '"' + columnSeparator + transformDollar(item["First_Bid"]) + columnSeparator 
+                item["ItemID"] + columnSeparator + str(compare_loc.index(item["Location"])) + columnSeparator 
+                + '"' + temp + '"' + columnSeparator + transformDollar(item["First_Bid"]) + columnSeparator 
                 + item["Number_of_Bids"] + columnSeparator + transformDollar(item["Currently"]) + columnSeparator + transformDttm(item["Started"]) + 
                 columnSeparator + transformDttm(item["Ends"])
             )
@@ -139,7 +138,7 @@ def parseJson(json_file):
             if item["Bids"] is not None:
                 for bids in item["Bids"]:
                         bid.append(
-                            str(bidsID) + columnSeparator + bids["Bid"]["Bidder"]["UserID"]  + columnSeparator + transformDttm(bids["Bid"]["Time"])
+                            str(bidsID) + columnSeparator + '"' + bids["Bid"]["Bidder"]["UserID"] + '"' + columnSeparator + transformDttm(bids["Bid"]["Time"])
                         + columnSeparator + transformDollar(bids["Bid"]["Amount"])
                         )
                         bidsID += 1 #Increments the bid ID
@@ -152,7 +151,8 @@ def parseJson(json_file):
                                 if bids["Bid"]["Bidder"]["UserID"] not in bidderIDs:
                                     bidderIDs.append(bids["Bid"]["Bidder"]["UserID"])
                                     bidder.append(
-                                        bids["Bid"]["Bidder"]["UserID"] + columnSeparator + str(compare_loc.index(bids["Bid"]["Bidder"]["Location"])) + columnSeparator 
+                                        '"' + bids["Bid"]["Bidder"]["UserID"] + '"' + columnSeparator + 
+                                        str(compare_loc.index(bids["Bid"]["Bidder"]["Location"])) + columnSeparator 
                                         + str(compare_country.index(bids["Bid"]["Bidder"]["Country"])) + columnSeparator + bids["Bid"]["Bidder"]["Rating"]
                                         )
 
@@ -160,7 +160,7 @@ def parseJson(json_file):
             if item["Seller"]["UserID"] not in sellerIDs:
                 sellerIDs.append(item["Seller"]["UserID"])
                 seller.append(
-                    item["Seller"]["UserID"] + columnSeparator + str(compare_loc.index(item["Location"])) + columnSeparator 
+                    '"' + item["Seller"]["UserID"] + '"' + columnSeparator + str(compare_loc.index(item["Location"])) + columnSeparator 
                     + str(compare_country.index(item["Country"])) + columnSeparator + item["Seller"]["Rating"]
                 )
 
@@ -169,7 +169,7 @@ def parseJson(json_file):
                 if category not in compare_cate:
                     compare_cate.append(category)
                     categories.append(
-                        str(categoryID) + columnSeparator + category
+                        str(categoryID) + columnSeparator + '"' + category + '"'
                     )
                     categoryID += 1
             
