@@ -174,11 +174,12 @@ def parseJson(json_file):
                                 "null" + columnSeparator + str(compare_country.index(bids["Bid"]["Bidder"]["Country"])) + columnSeparator + bids["Bid"]["Bidder"]["Rating"]
                                 )
                         else:
-                            bidderIDs.append(bids["Bid"]["Bidder"]["UserID"])
-                            bidder.append(
-                                '"' + bids["Bid"]["Bidder"]["UserID"] + '"' + columnSeparator + "null" + 
-                                columnSeparator + "null" + columnSeparator + bids["Bid"]["Bidder"]["Rating"]
-                                )
+                            if bids["Bid"]["Bidder"]["UserID"] not in bidderIDs:
+                                bidderIDs.append(bids["Bid"]["Bidder"]["UserID"])
+                                bidder.append(
+                                    '"' + bids["Bid"]["Bidder"]["UserID"] + '"' + columnSeparator + "null" + 
+                                    columnSeparator + "null" + columnSeparator + bids["Bid"]["Bidder"]["Rating"]
+                                    )
                         
 
             #Adds sellers to the user table
