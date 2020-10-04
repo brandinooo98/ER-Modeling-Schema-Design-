@@ -152,15 +152,34 @@ def parseJson(json_file):
             #Adds bidders to user table
             if item["Bids"] is not None:
                 for bids in item["Bids"]:
-                    if "Country" in bids["Bid"]["Bidder"]:
-                            if "Location" in bids["Bid"]["Bidder"]:
-                                if bids["Bid"]["Bidder"]["UserID"] not in bidderIDs:
-                                    bidderIDs.append(bids["Bid"]["Bidder"]["UserID"])
-                                    bidder.append(
-                                        '"' + bids["Bid"]["Bidder"]["UserID"] + '"' + columnSeparator + 
-                                        str(compare_loc.index(bids["Bid"]["Bidder"]["Location"])) + columnSeparator 
-                                        + str(compare_country.index(bids["Bid"]["Bidder"]["Country"])) + columnSeparator + bids["Bid"]["Bidder"]["Rating"]
-                                        )
+                    if "Country" in bids["Bid"]["Bidder"] and "Location" in bids["Bid"]["Bidder"]:
+                        if bids["Bid"]["Bidder"]["UserID"] not in bidderIDs:
+                            bidderIDs.append(bids["Bid"]["Bidder"]["UserID"])
+                            bidder.append(
+                                '"' + bids["Bid"]["Bidder"]["UserID"] + '"' + columnSeparator + 
+                                str(compare_loc.index(bids["Bid"]["Bidder"]["Location"])) + columnSeparator 
+                                + str(compare_country.index(bids["Bid"]["Bidder"]["Country"])) + columnSeparator + bids["Bid"]["Bidder"]["Rating"]
+                                )
+                    else:
+                        if bids["Bid"]["Bidder"]["UserID"] not in bidderIDs and "Country" not in bids["Bid"]["Bidder"] and "Location" in bids["Bid"]["Bidder"]:
+                            bidderIDs.append(bids["Bid"]["Bidder"]["UserID"])
+                            bidder.append(
+                                '"' + bids["Bid"]["Bidder"]["UserID"] + '"' + columnSeparator + 
+                                str(compare_loc.index(bids["Bid"]["Bidder"]["Location"])) + columnSeparator + "null" + columnSeparator + bids["Bid"]["Bidder"]["Rating"]
+                                )
+                        elif bids["Bid"]["Bidder"]["UserID"] not in bidderIDs and "Location" not in bids["Bid"]["Bidder"] and "Country" in bids["Bid"]["Bidder"]:
+                            bidderIDs.append(bids["Bid"]["Bidder"]["UserID"])
+                            bidder.append(
+                                '"' + bids["Bid"]["Bidder"]["UserID"] + '"' + columnSeparator + 
+                                "null" + columnSeparator + str(compare_country.index(bids["Bid"]["Bidder"]["Country"])) + columnSeparator + bids["Bid"]["Bidder"]["Rating"]
+                                )
+                        else:
+                            bidderIDs.append(bids["Bid"]["Bidder"]["UserID"])
+                            bidder.append(
+                                '"' + bids["Bid"]["Bidder"]["UserID"] + '"' + columnSeparator + "null" + 
+                                columnSeparator + "null" + columnSeparator + bids["Bid"]["Bidder"]["Rating"]
+                                )
+                        
 
             #Adds sellers to the user table
             if item["Seller"]["UserID"] not in sellerIDs:

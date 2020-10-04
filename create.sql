@@ -50,13 +50,13 @@ CREATE TABLE Seller (
 
 CREATE TABLE Location (
     locationID INT NOT NULL UNIQUE,
-    location CHAR(255) NOT NULL UNIQUE,
+    location CHAR(255) UNIQUE,
     PRIMARY KEY (locationID)
 );
 
 CREATE TABLE Country (
     countryID INT NOT NULL UNIQUE,
-    country CHAR(255) NOT NULL UNIQUE,
+    country CHAR(255) UNIQUE,
     PRIMARY KEY (countryID)
 );
 
