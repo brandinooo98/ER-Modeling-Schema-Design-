@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS Item;
 DROP TABLE IF EXISTS Bids;
-DROP TABLE IF EXISTS User;
+DROP TABLE IF EXISTS Bidder;
+DROP TABLE IF EXISTS Seller;
 DROP TABLE IF EXISTS Location;
 DROP TABLE IF EXISTS Country;
 DROP TABLE IF EXISTS LineItem;
@@ -10,7 +11,6 @@ CREATE TABLE Item (
     itemID INT NOT NULL UNIQUE,
     locationID INT,
     name INT NOT NULL,
-    buy_price DOUBLE,
     first_bid DOUBLE NOT NULL,
     number_of_bids INT NOT NULL,
     currently DOUBLE NOT NULL,
@@ -28,23 +28,30 @@ CREATE TABLE Bids (
     PRIMARY KEY (bidsID)
 );
 
-CREATE TABLE User (
+CREATE TABLE Bidder (
     userID INT NOT NULL UNIQUE,
     locationID INT,
     countryID INT,
-    bidsID INT NOT NULL,
     rating DOUBLE NOT NULL,
     PRIMARY KEY (userID),
     FOREIGN KEY (locationID) REFERENCES Location (locationID),
-    FOREIGN KEY (countryID) REFERENCES Country (countryID),
+    FOREIGN KEY (countryID) REFERENCES Country (countryID)
+);
+
+CREATE TABLE Seller (
+    userID INT NOT NULL UNIQUE,
+    locationID INT,
+    countryID INT,
+    rating DOUBLE NOT NULL,
+    PRIMARY KEY (userID),
+    FOREIGN KEY (locationID) REFERENCES Location (locationID),
+    FOREIGN KEY (countryID) REFERENCES Country (countryID)
 );
 
 CREATE TABLE Location (
     locationID INT NOT NULL UNIQUE,
-    countryID INT NOT NULL,
     location CHAR(255) NOT NULL UNIQUE,
-    PRIMARY KEY (locationID),
-    FOREIGN KEY (countryID) REFERENCES Country (countryID)
+    PRIMARY KEY (locationID)
 );
 
 CREATE TABLE Country (
@@ -54,8 +61,8 @@ CREATE TABLE Country (
 );
 
 CREATE TABLE LineItem (
-    categoryID INT NOT NULL UNIQUE,
-    itemID INT NOT NULL UNIQUE,
+    categoryID INT NOT NULL,
+    itemID INT NOT NULL,
     FOREIGN KEY (categoryID) REFERENCES Category (categoryID),
     FOREIGN KEY (itemID) REFERENCES Item (itemID)
 );
