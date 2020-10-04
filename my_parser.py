@@ -111,9 +111,8 @@ def parseJson(json_file):
                             countryID += 1 #Increments the countryID"""
 
             if '"' in item["Name"]:
-                index = item["Name"].index('"')
                 temp = item["Name"]
-                temp = temp[:index] + '"' + temp[index:]
+                item.replace('"', "\"\"")
             else:
                 temp = item["Name"]
             #Adds to item table
