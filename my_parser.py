@@ -172,42 +172,42 @@ def parseJson(json_file):
             
 
     #Writes to item.dat
-    with open("item.dat", 'w') as f:
+    with open("item.dat", 'a') as f:
         for line in item_table:
             f.write(line + "\n")
 
     #Writes to bid.dat
-    with open("bid.dat", 'w') as f:
+    with open("bid.dat", 'a') as f:
         for line in bid:
             f.write(line + "\n")
 
     #Writes to seller.dat
-    with open("seller.dat", 'w') as f:
+    with open("seller.dat", 'a') as f:
         for line in seller:
             f.write(line + "\n")
 
     #Writes to bidder.dat
-    with open("bidder.dat", 'w') as f:
+    with open("bidder.dat", 'a') as f:
         for line in bidder:
             f.write(line + "\n")
 
     #Writes to category.dat
-    with open("category.dat", 'w') as f:
+    with open("category.dat", 'a') as f:
         for line in categories:
             f.write(line + "\n")
 
     #Writes to location.dat
-    with open("location.dat", 'w') as f:
+    with open("location.dat", 'a') as f:
         for line in location:
             f.write(line + "\n")
 
     #Writes to country.dat
-    with open("country.dat", 'w') as f:
+    with open("country.dat", 'a') as f:
         for line in country:
             f.write(line + "\n")
 
     #Writes to lineItem.dat
-    with open("lineItem.dat", 'w') as f:
+    with open("lineItem.dat", 'a') as f:
         for line in lineItem:
             f.write(line + "\n")
 
