@@ -52,7 +52,8 @@ def parseJson(json_file):
     #Initialize lists that store all of the json information
     item_table = []
     bid = []
-    user = []
+    bidder = []
+    seller = []
     location = []
     country = []
     lineItem = []
@@ -60,6 +61,8 @@ def parseJson(json_file):
     compare_cate = []
     compare_loc = []
     compare_country = []
+    bidderIDs = []
+    sellerIDs = []
 
     bidsID = 0 # Keeps track of the bidsID
     categoryID = 0 # Keeps track of the categoryID
@@ -125,11 +128,11 @@ def parseJson(json_file):
             #Adds to bids table
             if item["Bids"] is not None:
                 for bids in item["Bids"]:
-                    bid.append(
-                        str(bidsID) + columnSeparator + bids["Bid"]["Bidder"]["UserID"]  + columnSeparator + transformDttm(bids["Bid"]["Time"])
-                    + columnSeparator + transformDollar(bids["Bid"]["Amount"])
-                    )
-                    bidsID += 1 #Increments the bid ID
+                        bid.append(
+                            str(bidsID) + columnSeparator + bids["Bid"]["Bidder"]["UserID"]  + columnSeparator + transformDttm(bids["Bid"]["Time"])
+                        + columnSeparator + transformDollar(bids["Bid"]["Amount"])
+                        )
+                        bidsID += 1 #Increments the bid ID
 
             #Adds bidders to user table
             if item["Bids"] is not None:
@@ -137,17 +140,20 @@ def parseJson(json_file):
                     if "Country" in bids["Bid"]["Bidder"]:
                         if bids["Bid"]["Bidder"]["Country"] not in compare_country:
                             if bids["Bid"]["Bidder"]["Location"] not in compare_loc:
-                                user.append(
-                                    bids["Bid"]["Bidder"]["UserID"] + columnSeparator + str(compare_loc.index(bids["Bid"]["Bidder"]["Location"])) + columnSeparator 
-                                    + str(compare_country.index(bids["Bid"]["Bidder"]["Country"])) + columnSeparator + bids["Bid"]["Bidder"]["Rating"] + columnSeparator 
-                                    + "True" + columnSeparator + "False"
-                                    )
+                                if bids["Bid"]["Bidder"]["UserID"] not in bidderIDs:
+                                    bidderIDs.append(bids["Bid"]["Bidder"]["UserID"])
+                                    bidder.append(
+                                        bids["Bid"]["Bidder"]["UserID"] + columnSeparator + str(compare_loc.index(bids["Bid"]["Bidder"]["Location"])) + columnSeparator 
+                                        + str(compare_country.index(bids["Bid"]["Bidder"]["Country"])) + columnSeparator + bids["Bid"]["Bidder"]["Rating"]
+                                        )
 
             #Adds sellers to the user table
-            user.append(
-                item["Seller"]["UserID"] + columnSeparator + str(compare_loc.index(item["Location"])) + columnSeparator 
-                + str(compare_country.index(item["Country"])) + columnSeparator + item["Seller"]["Rating"] + columnSeparator + "False" + columnSeparator + "True"
-            )
+            if item["Seller"]["UserID"] not in sellerIDs:
+                sellerIDs.append(item["Seller"]["UserID"])
+                seller.append(
+                    item["Seller"]["UserID"] + columnSeparator + str(compare_loc.index(item["Location"])) + columnSeparator 
+                    + str(compare_country.index(item["Country"])) + columnSeparator + item["Seller"]["Rating"]
+                )
 
             #Adds to category table
             for category in item["Category"]:
@@ -176,9 +182,14 @@ def parseJson(json_file):
         for line in bid:
             f.write(line + "\n")
 
-    #Writes to user.dat
-    with open("user.dat", 'w') as f:
-        for line in user:
+    #Writes to seller.dat
+    with open("seller.dat", 'w') as f:
+        for line in seller:
+            f.write(line + "\n")
+
+    #Writes to bidder.dat
+    with open("bidder.dat", 'w') as f:
+        for line in bidder:
             f.write(line + "\n")
 
     #Writes to category.dat

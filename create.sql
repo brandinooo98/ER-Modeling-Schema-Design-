@@ -32,13 +32,11 @@ CREATE TABLE User (
     userID INT NOT NULL UNIQUE,
     locationID INT,
     countryID INT,
-    ratingID INT NOT NULL,
     bidsID INT NOT NULL,
     rating DOUBLE NOT NULL,
     PRIMARY KEY (userID),
     FOREIGN KEY (locationID) REFERENCES Location (locationID),
     FOREIGN KEY (countryID) REFERENCES Country (countryID),
-    FOREIGN KEY (ratingID) REFERENCES Rating (ratingID)
 );
 
 CREATE TABLE Location (
