@@ -111,14 +111,14 @@ def parseJson(json_file):
                             countryID += 1 #Increments the countryID"""
 
             if '"' in item["Name"]:
-                index = item["Name"].index("\"")
+                index = item["Name"].index('"')
                 temp = item["Name"]
                 temp = temp[:index] + '"' + temp[index:]
             else:
                 temp = item["Name"]
             #Adds to item table
             item_table.append(
-                item["ItemID"] + columnSeparator + str(compare_loc.index(item["Location"])) + columnSeparator + "\"" + temp + "\"" + columnSeparator + transformDollar(item["First_Bid"]) + columnSeparator 
+                item["ItemID"] + columnSeparator + str(compare_loc.index(item["Location"])) + columnSeparator + '"' + temp + '"' + columnSeparator + transformDollar(item["First_Bid"]) + columnSeparator 
                 + item["Number_of_Bids"] + columnSeparator + transformDollar(item["Currently"]) + columnSeparator + transformDttm(item["Started"]) + 
                 columnSeparator + transformDttm(item["Ends"])
             )
