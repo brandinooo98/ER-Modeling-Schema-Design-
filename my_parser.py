@@ -1,7 +1,25 @@
 import sys
 from json import loads
 from re import sub
+#Initialize lists that store all of the json information
+item_table = []
+bid = []
+bidder = []
+seller = []
+location = []
+country = []
+lineItem = []
+categories = []
+compare_cate = []
+compare_loc = []
+compare_country = []
+bidderIDs = []
+sellerIDs = []
 
+bidsID = 0 # Keeps track of the bidsID
+categoryID = 0 # Keeps track of the categoryID
+locationID = 0 # Keeps track of the locationID
+countryID = 0 # Keeps track of te countryID
 columnSeparator = "|"
 
 # Dictionary of months used for date transformation
@@ -48,28 +66,11 @@ item in the data set. Your job is to extend this functionality to create all
 of the necessary SQL tables for your database.
 """
 def parseJson(json_file):
-
-    #Initialize lists that store all of the json information
-    item_table = []
-    bid = []
-    bidder = []
-    seller = []
-    location = []
-    country = []
-    lineItem = []
-    categories = []
-    compare_cate = []
-    compare_loc = []
-    compare_country = []
-    bidderIDs = []
-    sellerIDs = []
-
-    bidsID = 0 # Keeps track of the bidsID
-    categoryID = 0 # Keeps track of the categoryID
-    locationID = 0 # Keeps track of the locationID
-    countryID = 0 # Keeps track of te countryID
+    locationID = len(compare_loc)
+    countryID = len(compare_country)
+    categoryID = len(compare_cate)
+    bidsID = len(bid)
     temp = ""
-
     #Reads through all of the json files
     with open(json_file, 'r') as f:
         items = loads(f.read())['Items'] # creates a Python dictionary of Items for the supplied json file
