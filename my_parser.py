@@ -138,10 +138,12 @@ def parseJson(json_file):
             if item["Bids"] is not None:
                 for bids in item["Bids"]:
                     if "Country" in bids["Bid"]["Bidder"]:
-                        bidder.append(
-                            bids["Bid"]["Bidder"]["UserID"] + columnSeparator + str(compare_loc.index(bids["Bid"]["Bidder"]["Location"])) + columnSeparator 
-                            + str(compare_country.index(bids["Bid"]["Bidder"]["Country"])) + columnSeparator + bids["Bid"]["Bidder"]["Rating"]
-                            )
+                        if bids["Bid"]["Bidder"]["Country"] in compare_country:
+                            if bids["Bid"]["Bidder"]["Location"] in compare_loc:
+                                bidder.append(
+                                    bids["Bid"]["Bidder"]["UserID"] + columnSeparator + str(compare_loc.index(bids["Bid"]["Bidder"]["Location"])) + columnSeparator 
+                                    + str(compare_country.index(bids["Bid"]["Bidder"]["Country"])) + columnSeparator + bids["Bid"]["Bidder"]["Rating"]
+                                    )
 
             #Adds sellers to the user table
             seller.append(
