@@ -112,7 +112,7 @@ def parseJson(json_file):
 
             if '"' in item["Name"]:
                 temp = item["Name"]
-                item.replace('"', "\"\"")
+                temp = temp.replace('"', '""', 20)
             else:
                 temp = item["Name"]
             #Adds to item table
