@@ -139,16 +139,20 @@ def parseJson(json_file):
                 for bids in item["Bids"]:
                     if "Country" in bids["Bid"]["Bidder"]:
                             if "Location" in bids["Bid"]["Bidder"]:
+                                if bids["Bid"]["Bidder"]["UserID"] not in bidderIDs:
+                                    bidderIDs.append(bids["Bid"]["Bidder"]["UserID"])
                                     bidder.append(
                                         bids["Bid"]["Bidder"]["UserID"] + columnSeparator + str(compare_loc.index(bids["Bid"]["Bidder"]["Location"])) + columnSeparator 
                                         + str(compare_country.index(bids["Bid"]["Bidder"]["Country"])) + columnSeparator + bids["Bid"]["Bidder"]["Rating"]
                                         )
 
             #Adds sellers to the user table
-            seller.append(
-                item["Seller"]["UserID"] + columnSeparator + str(compare_loc.index(item["Location"])) + columnSeparator 
-                + str(compare_country.index(item["Country"])) + columnSeparator + item["Seller"]["Rating"]
-            )
+            if item["Seller"]["UserID"] not in sellerIDs:
+                sellerIDs.append(item["Seller"]["UserID"])
+                seller.append(
+                    item["Seller"]["UserID"] + columnSeparator + str(compare_loc.index(item["Location"])) + columnSeparator 
+                    + str(compare_country.index(item["Country"])) + columnSeparator + item["Seller"]["Rating"]
+                )
 
             #Adds to category table
             for category in item["Category"]:
