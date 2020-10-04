@@ -1,2 +1,2 @@
 SELECT DISTINCT COUNT(*) 
-FROM Country;
+FROM Bidder;
