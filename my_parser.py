@@ -170,8 +170,7 @@ def parseJson(json_file):
                     str(compare_cate.index(category)) + columnSeparator + str(item["ItemID"])
                 )
 
-            
-
+def createDat():
     #Writes to item.dat
     with open("item.dat", 'a') as f:
         for line in item_table:
@@ -212,6 +211,7 @@ def parseJson(json_file):
         for line in lineItem:
             f.write(line + "\n")
 
+
 """
 Loops through each json files provided on the command line and passes each file
 to the parser
@@ -225,6 +225,7 @@ def main(argv):
         if isJson(f):
             parseJson(f)
             print ("Success parsing " + f)
+    createDat()
 
 if __name__ == '__main__':
     main(sys.argv)
