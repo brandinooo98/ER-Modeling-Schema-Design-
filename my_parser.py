@@ -78,11 +78,17 @@ def parseJson(json_file):
 
             #Adds seller locations to the location table
             if item["Location"] not in compare_loc:
+                if '"' in item["Location"]:
+                                temp = item["Location"]
+                                temp = temp.replace('"', '""', 20)
+                else:
+                    temp = item["Location"]
                 compare_loc.append(item["Location"])
                 location.append(
-                    str(locationID) + columnSeparator + '"' + item["Location"] + '"'
+                    str(locationID) + columnSeparator + '"' + temp + '"'
                 )
                 locationID += 1
+                temp = '"'
             
             #Adds bid locations to the location table
             if item["Bids"] is not None:
