@@ -113,10 +113,7 @@ def parseJson(json_file):
             if '"' in item["Name"]:
                 index = item["Name"].index("\"")
                 temp = item["Name"]
-                temp = temp[:index] + '\"' + temp[index:]
-                if '"' in temp[index:]:
-                    index2 = temp[index:].index("\"")
-                    temp = temp[:index2] + '\"' + temp[index2:]
+                temp = temp[:index] + '"' + temp[index:]
             else:
                 temp = item["Name"]
             #Adds to item table
