@@ -145,7 +145,7 @@ def parseJson(json_file):
                 for bids in item["Bids"]:
                         bid.append(
                             str(bidsID) + columnSeparator + '"' + bids["Bid"]["Bidder"]["UserID"] + '"' + columnSeparator + transformDttm(bids["Bid"]["Time"])
-                        + columnSeparator + transformDollar(bids["Bid"]["Amount"])
+                        + columnSeparator + transformDollar(bids["Bid"]["Amount"]) + columnSeparator + item["ItemID"]
                         )
                         bidsID += 1 #Increments the bid ID
 
