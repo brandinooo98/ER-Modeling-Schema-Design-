@@ -6,3 +6,4 @@
 .import country.dat Country
 .import lineItem.dat LineItem
 .import category.dat Category
+.import bid.dat Bid
