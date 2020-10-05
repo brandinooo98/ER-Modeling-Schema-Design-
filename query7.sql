@@ -6,5 +6,5 @@ SELECT COUNT(*)
 FROM
 (
 SELECT lineItem, item
-WHERE DISTINCT lineItem.itemID = item.itemID AND currently > 100;
-)
+WHERE lineItem.itemID = item.itemID AND currently > 100
+);
