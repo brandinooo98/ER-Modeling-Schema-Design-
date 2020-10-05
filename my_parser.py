@@ -198,12 +198,12 @@ def parseJson(json_file):
                         str(categoryID) + columnSeparator + '"' + category + '"'
                     )
                     categoryID += 1
-            
+                    
+            temp_cate = []
             #Adds to lineItem table
             for category in item["Category"]:
-                temp_cate = []
                 if category not in temp_cate:
-                    temp_cate.append(item["Category"])
+                    temp_cate.append(category)
                     lineItem.append(
                         str(compare_cate.index(category)) + columnSeparator + str(item["ItemID"])
                     )
