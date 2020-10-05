@@ -23,6 +23,7 @@ CREATE TABLE Item (
 CREATE TABLE Bid (
     bidsID INT NOT NULL UNIQUE,
     userID INT NOT NULL,
+    itemID INT NOT NULL,
     time CHAR (255) NOT NULL,
     amount CHAR (255) NOT NULL,
     PRIMARY KEY (bidsID)
