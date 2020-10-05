@@ -201,9 +201,12 @@ def parseJson(json_file):
             
             #Adds to lineItem table
             for category in item["Category"]:
-                lineItem.append(
-                    str(compare_cate.index(category)) + columnSeparator + str(item["ItemID"])
-                )
+                temp_cate = []
+                if category not in temp_cate:
+                    temp_cate.append(item["Category"])
+                    lineItem.append(
+                        str(compare_cate.index(category)) + columnSeparator + str(item["ItemID"])
+                    )
 
 def createDat():
     #Writes to item.dat
